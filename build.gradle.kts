@@ -44,9 +44,13 @@ dependencies {
     kapt("io.micronaut:micronaut-validation")
     kaptTest(platform("io.micronaut:micronaut-bom:$micronautVersion"))
     kaptTest("io.micronaut:micronaut-inject-java")
-    runtimeOnly("com.fasterxml.jackson.module:jackson-module-kotlin:2.9.8")
     testImplementation(platform("io.micronaut:micronaut-bom:$micronautVersion"))
-    testImplementation("io.micronaut.test:micronaut-test-kotlintest")
+
+    runtimeOnly("com.fasterxml.jackson.module:jackson-module-kotlin:2.9.8")
+
+    val spekVersion: String by project
+    testImplementation("org.spekframework.spek2:spek-dsl-jvm:$spekVersion")
+    testRuntimeOnly("org.spekframework.spek2:spek-runner-junit5:$spekVersion")
 
     runtimeOnly("ch.qos.logback:logback-classic:1.2.3")
     testImplementation("io.mockk:mockk:1.9.3")
@@ -60,7 +64,9 @@ application {
 
 tasks {
     test {
-        useJUnitPlatform()
+        useJUnitPlatform {
+            includeEngines = setOf("spek2")
+        }
     }
 }
 
