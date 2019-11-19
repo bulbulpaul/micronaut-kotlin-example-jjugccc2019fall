@@ -36,25 +36,35 @@ dependencies {
 
     val micronautVersion: String by project
     implementation(platform("io.micronaut:micronaut-bom:$micronautVersion"))
-    implementation("io.micronaut:micronaut-runtime")
-    implementation("io.micronaut:micronaut-http-server-netty")
     implementation("io.micronaut:micronaut-http-client")
-    kapt(platform("io.micronaut:micronaut-bom:$micronautVersion"))
-    kapt("io.micronaut:micronaut-inject-java")
+
+    val micronautInjectJavaVersion: String by project
+    annotationProcessor("io.micronaut:micronaut-inject-java:$micronautInjectJavaVersion")
+    kapt("io.micronaut:micronaut-inject-java:$micronautInjectJavaVersion")
+    kaptTest("io.micronaut:micronaut-inject-java:$micronautInjectJavaVersion")
+    implementation("io.micronaut:micronaut-inject")
+
     kapt("io.micronaut:micronaut-validation")
+
+    kapt(platform("io.micronaut:micronaut-bom:$micronautVersion"))
     kaptTest(platform("io.micronaut:micronaut-bom:$micronautVersion"))
-    kaptTest("io.micronaut:micronaut-inject-java")
     testImplementation(platform("io.micronaut:micronaut-bom:$micronautVersion"))
 
+    // apply Kotlin Runtime Support
+    implementation("io.micronaut.kotlin:micronaut-kotlin-runtime:1.0.0.M2")
+    implementation("io.micronaut.kotlin:micronaut-ktor:1.0.0.M2")
+
+    val ktorVersion: String by project
+    implementation("io.ktor:ktor-server-netty:$ktorVersion")
+    implementation("io.ktor:ktor-jackson:$ktorVersion")
     runtimeOnly("com.fasterxml.jackson.module:jackson-module-kotlin:2.9.8")
 
     val spekVersion: String by project
     testImplementation("org.spekframework.spek2:spek-dsl-jvm:$spekVersion")
     testRuntimeOnly("org.spekframework.spek2:spek-runner-junit5:$spekVersion")
+    testImplementation("io.mockk:mockk:1.9.3")
 
     runtimeOnly("ch.qos.logback:logback-classic:1.2.3")
-    testImplementation("io.mockk:mockk:1.9.3")
-    testImplementation("io.kotlintest:kotlintest-runner-junit5:3.3.2")
 }
 
 application {
@@ -75,7 +85,6 @@ allOpen {
 }
 
 tasks {
-
     withType<KotlinCompile> {
         kotlinOptions {
             freeCompilerArgs = listOf("-Xjsr305=strict")
