@@ -1,5 +1,5 @@
 profile: service
 defaultPackage: com.merrylab.example
 ---
-testFramework: kotlintest
+testFramework: spek
 sourceLanguage: kotlin
