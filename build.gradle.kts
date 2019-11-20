@@ -68,7 +68,7 @@ dependencies {
 }
 
 application {
-    mainClassName = "com.merrylab.example.Application"
+    mainClassName = "com.merrylab.example.ApplicationKt"
     applicationDefaultJvmArgs = listOf("-noverify", "-XX:TieredStopAtLevel=1", "-Dcom.sun.management.jmxremote")
 }
 
