@@ -60,8 +60,17 @@ dependencies {
     runtimeOnly("com.fasterxml.jackson.module:jackson-module-kotlin:2.9.8")
 
     val spekVersion: String by project
-    testImplementation("org.spekframework.spek2:spek-dsl-jvm:$spekVersion")
-    testRuntimeOnly("org.spekframework.spek2:spek-runner-junit5:$spekVersion")
+    testImplementation("org.jetbrains.kotlin:kotlin-test:$kotlinVersion")
+    testImplementation("org.spekframework.spek2:spek-dsl-jvm:$spekVersion") {
+        exclude("org.jetbrains.kotlin")
+    }
+    testRuntimeOnly("org.spekframework.spek2:spek-runner-junit5:$spekVersion") {
+        exclude("org.junit.platform")
+        exclude("org.jetbrains.kotlin")
+    }
+    testImplementation("org.junit.jupiter:junit-jupiter-engine")
+    testRuntimeOnly("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
+
     testImplementation("io.mockk:mockk:1.9.3")
 
     runtimeOnly("ch.qos.logback:logback-classic:1.2.3")
